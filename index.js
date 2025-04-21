@@ -1,23 +1,15 @@
 require('dotenv').config()
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
+const routes = require('./routes');
 
 const app = express();
 
 // Middleware
-app.use(express.json());
-app.use(cors());
+// app.use(express.json());
+app.use('/api', routes);
 
-// Importation des routes
 
-const eventRoutes = require('./services/events/event.routes');
-const archivesRoutes = require('./services/archives/archives.routes');
-const authRoutes = require('./services/auth/auth.routes');
-// const sequelize = require('./config/db');
-
-app.use('/api/events', eventRoutes);
-app.use('/api/archives', archivesRoutes);
-app.use('/api/auth', authRoutes);
 
 
 app.get('/', (req, res) => {

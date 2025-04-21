@@ -1,4 +1,4 @@
-const Archive = require('./archives.model');
+const Archive = require('../models');
 
 exports.createArchive = async (req, res) => {
   try {
@@ -8,6 +8,8 @@ exports.createArchive = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+
 
 exports.getAllArchives = async (req, res) => {
     try {

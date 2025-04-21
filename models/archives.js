@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize');
-const sequelize = require('../../config/db');
+const sequelize = require('../config/db');
 
-const Archive = sequelize.define('Archive', {
+const Archive = sequelize.define('archives', {
   id: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -19,6 +19,12 @@ const Archive = sequelize.define('Archive', {
     type: DataTypes.STRING,
     allowNull: false
     },
+    user_id: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+
+    // Relations with other models
 },{timestamps: true});
 
 sequelize.sync({force: true})
