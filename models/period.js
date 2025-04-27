@@ -24,8 +24,6 @@ const Period = sequelize.define('Period', {
         type: DataTypes.TEXT,
         // allowNull: false
     }
-}, {
-    timestamps: true
 },{
     
     timestamps: true,

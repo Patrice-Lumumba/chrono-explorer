@@ -6,7 +6,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getById = async (req, res) => {
-  const event = await Event.findByPk(req.params.id, { include: 'period' });
+  const event = await Event.findByPk(req.params.id);
   event ? res.json(event) : res.status(404).json({ message: 'Not found' });
 };
 

@@ -36,13 +36,13 @@ const Event = sequelize.define('Event', {
         type: DataTypes.STRING(255),
         // allowNull: true
     },
-    period_id: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'periods', // 'periods' would be the table name
-            key: 'id'
-        },
-    },
+    // period_id: {
+    //     type: DataTypes.INTEGER,
+    //     references: {
+    //         model: 'periods', // 'periods' would be the table name
+    //         key: 'id'
+    //     },
+    // },
     }, {
         // Other model options go here
         tableName: 'events',
@@ -52,8 +52,8 @@ const Event = sequelize.define('Event', {
     }
 );
 
-Event.belongsTo(Period, { foreignKey: 'period_id' });
+Event.belongsTo(Period);
 
-// sequelize.sync({force: true})
+sequelize.sync({force: true})
 
 module.exports = Event;

@@ -86,12 +86,13 @@ INSERT INTO periods (name, start_date, end_date, description) VALUES
 ('Ère Moderne', 1700, 2000, 'L''ère moderne est marquée par la révolution industrielle et technologique');
 
 -- Insert sample events
-INSERT INTO events (title, date_start, date_end, location, civilization, description, image_url, period_id) VALUES
-('Construction du Colisée', '70 apr. J.C.', '80 apr. J.C.', 'Rome, Italie', 'Romaine', 'Le Colisée, également connu sous le nom d''amphithéâtre Flavien, est un amphithéâtre elliptique situé dans le centre de Rome. C''est le plus grand amphithéâtre jamais construit à l''époque romaine.', 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=1996&auto=format&fit=crop', 4),
-('Fondation de l''Empire Romain', '27 av. J.C.', NULL, 'Rome, Italie', 'Romaine', 'Après un siècle de guerre civile, Auguste devient le premier empereur romain, transformant la République romaine en un empire qui dominera le monde méditerranéen pendant les cinq siècles suivants.', 'https://images.unsplash.com/photo-1471960098958-2059c6681742?q=80&w=2021&auto=format&fit=crop', 4),
-('Conquête de la Gaule', '58 av. J.C.', '50 av. J.C.', 'Gaule (France actuelle)', 'Romaine', 'Jules César mène une série de campagnes militaires contre les tribus gauloises, étendant la République romaine jusqu''au Rhin et à l''océan Atlantique.', 'https://images.unsplash.com/photo-1559535332-db9971090158?q=80&w=1931&auto=format&fit=crop', 4),
-('Éruption du Vésuve', '79 apr. J.C.', NULL, 'Pompéi, Italie', 'Romaine', 'L''éruption catastrophique du mont Vésuve ensevelit les villes romaines de Pompéi et Herculanum, préservant ces sites pendant près de 1700 ans jusqu''à leur redécouverte.', 'https://images.unsplash.com/photo-1516547375098-8d945a64d490?q=80&w=2070&auto=format&fit=crop', 4);
+INSERT INTO events (title, date_start, date_end, location, civilization, description, image_url) VALUES
+('Construction du Colisée', '70 apr. J.C.', '80 apr. J.C.', 'Rome, Italie', 'Romaine', 'Le Colisée, également connu sous le nom d''amphithéâtre Flavien, est un amphithéâtre elliptique situé dans le centre de Rome. C''est le plus grand amphithéâtre jamais construit à l''époque romaine.', 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=1996&auto=format&fit=crop'),
+('Fondation de l''Empire Romain', '27 av. J.C.', NULL, 'Rome, Italie', 'Romaine', 'Après un siècle de guerre civile, Auguste devient le premier empereur romain, transformant la République romaine en un empire qui dominera le monde méditerranéen pendant les cinq siècles suivants.', 'https://images.unsplash.com/photo-1471960098958-2059c6681742?q=80&w=2021&auto=format&fit=crop'),
+('Conquête de la Gaule', '58 av. J.C.', '50 av. J.C.', 'Gaule (France actuelle)', 'Romaine', 'Jules César mène une série de campagnes militaires contre les tribus gauloises, étendant la République romaine jusqu''au Rhin et à l''océan Atlantique.', 'https://images.unsplash.com/photo-1559535332-db9971090158?q=80&w=1931&auto=format&fit=crop'),
+('Éruption du Vésuve', '79 apr. J.C.', NULL, 'Pompéi, Italie', 'Romaine', 'L''éruption catastrophique du mont Vésuve ensevelit les villes romaines de Pompéi et Herculanum, préservant ces sites pendant près de 1700 ans jusqu''à leur redécouverte.', 'https://images.unsplash.com/photo-1516547375098-8d945a64d490?q=80&w=2070&auto=format&fit=crop');
 
 -- Insert a sample admin user (password: admin123)
 INSERT INTO users (username, email, password, role) VALUES
 ('admin', 'admin@louvrehistory.com', '$2b$10$Sx6j0NxQYF2XQ4/nvzNZWeMlgLjYUYyX4sLRmHXW9CgBL.o0/xiQ2', 'admin');
+

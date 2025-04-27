@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'secret';
 
-module.exports = (req, res, next) => {
+const authToken = (req, res, next) => {
   const token = req.headers['authorization']?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'Token manquant' });
 
@@ -13,3 +13,5 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: 'Token invalide' });
   }
 }
+
+module.exports = authToken;
