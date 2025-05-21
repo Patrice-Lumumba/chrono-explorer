@@ -1,3 +1,4 @@
+const { or } = require('sequelize');
 const { Period } = require('../models');
 
 exports.getAll = async (req, res) => {
@@ -54,4 +55,19 @@ exports.delete = async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Error deleting period', error });
     }
+}
+
+exports.getByEvent = async (req, res) => {
+    try {
+        const periods = await Period.findAll({
+            
+            order: [['start_date', 'ASC']]
+        });
+        
+        res.status(200).json(periods);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error retrieving periods', error });
+    }
+
 }

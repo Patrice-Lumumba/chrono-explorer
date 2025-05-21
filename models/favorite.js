@@ -4,16 +4,26 @@ const User = require('./user');
 const Event = require('./events');
 
 const Favorite = sequelize.define('Favorite', {
+
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
     user_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        references: {
+            model: User,
+            key: 'id'
+        },
+        allowNull: false
     },
     event_id: {
         type: DataTypes.INTEGER,
-        // references: {
-        //     model: Event, // 'events' would be the table name
-        //     key: 'id'
-        // },
+        references: {
+            model: Event,
+            key: 'id'
+        },
         allowNull: false
     }
 }, {

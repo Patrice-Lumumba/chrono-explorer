@@ -11,13 +11,13 @@ const Comment = sequelize.define('Comment', {
         primaryKey: true
     },
     content: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING,
         allowNull: false
     },
     user_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: User, // 'users' would be the table name
+            model: User,
             key: 'id'
         },
         allowNull: false
@@ -25,19 +25,15 @@ const Comment = sequelize.define('Comment', {
     event_id: {
         type: DataTypes.INTEGER,
         references: {
-            model: Event, // 'events' would be the table name
+            model: Event,
             key: 'id'
         },
         allowNull: false
     },
-    comment: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
-    status: {
-        type: DataTypes.ENUM('pending', 'approved', 'rejected'),
-        defaultValue: 'pending'
-    }
+    isApproved: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 }, {
     timestamps: true,
     createdAt: 'created_at',

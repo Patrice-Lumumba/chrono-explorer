@@ -34,3 +34,20 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: 'Erreur lors de la connexion', error });
   }
 };
+
+// Give the user a role
+exports.giveRole = async (req, res) => {
+  try {
+    const { userId, role } = req.body;
+
+    const user = await User.findByPk(userId);
+    if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
+
+    user.role = role;
+    await user.save();
+
+    res.json({ message: 'Rôle attribué', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur lors de l’attribution du rôle', error });
+  }
+};

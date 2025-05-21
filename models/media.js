@@ -10,7 +10,14 @@ const Media = sequelize.define('Media', {
     },
     type: {
         type: DataTypes.ENUM('image', 'video', 'document'),
-        allowNull: false
+        allowNull: false,
+        validate: {
+            isIn: {
+                args: [['image', 'video', 'document']],
+                msg: "Type must be either 'image', 'video', or 'document'"
+            },
+            notEmpty: true
+        }
     },
     title: {
         type: DataTypes.STRING(255),
@@ -30,15 +37,29 @@ const Media = sequelize.define('Media', {
             model: Event, // 'events' would be the table name
             key: 'id'
         },
-    }
+    },
+    uploader_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    comment: 'ID of the user who uploaded the media'
+  }
+
 }, {
     // Other model options go here
     tableName: 'media',
+    indexes: [
+        {
+            fields: ['event_id']
+        },
+        {
+            fields: ['type']
+        },
+    ],
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: false
 });
 
-Media.belongsTo(Event, { foreignKey: 'event_id' });
+// Media.belongsTo(Event, { foreignKey: 'event_id' });
 
 module.exports = Media;

@@ -1,9 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Period = require('./period'); // Adjust the path as necessary
+const Media = require('./media');
 
 const Event = sequelize.define('Event', {
-    // Model attributes are defined here
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -36,10 +35,10 @@ const Event = sequelize.define('Event', {
         type: DataTypes.STRING(255),
         // allowNull: true
     },
-    // period_id: {
+    // media_id: {
     //     type: DataTypes.INTEGER,
     //     references: {
-    //         model: 'periods', // 'periods' would be the table name
+    //         model: 'media', // 'media' would be the table name
     //         key: 'id'
     //     },
     // },
@@ -51,9 +50,9 @@ const Event = sequelize.define('Event', {
         updatedAt: false
     }
 );
+Event.belongsToMany(Media, { through: 'Eventmedia', foreignKey: 'event_id' });
+Media.belongsToMany(Event, { through: 'Eventmedia', foreignKey: 'media_id' });
 
-Event.belongsTo(Period);
-
-sequelize.sync({force: true})
+// sequelize.sync({force: true})
 
 module.exports = Event;

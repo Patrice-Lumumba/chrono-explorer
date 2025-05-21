@@ -1,11 +1,25 @@
 const router = require('express').Router();
 const controller = require('../controllers/event.controller');
-const authToken = require('../middlewares/auth.middleware');
+const auth = require('../middlewares/auth.middleware');
 
-router.get('/', authToken, controller.getAll);
+
+router.get('/', controller.getAll);
 router.get('/:id', controller.getById);
-router.post('/', controller.create);
-router.put('/:id', controller.update);
-router.delete('/:id', controller.delete);
+
+
+// Ajouter un événement aux favoris
+
+router.post('/:id/favorite', controller.addFavorite);
+// Supprimer un événement des favoris
+router.delete('/:id/favorite', controller.removeFavorite);
+// Obtenir les événements favoris
+router.get('/favorites', controller.getFavorites);
+router.get('/:id/comments', controller.getAllComments);
+
+// admin event routes
+
+router.post('/', auth.authToken, auth.authRole('admin'), controller.create);
+router.put('/:id', auth.authToken, auth.authRole('admin'), controller.update);
+router.delete('/:id', auth.authToken, auth.authRole('admin'), controller.delete);
 
 module.exports = router;
