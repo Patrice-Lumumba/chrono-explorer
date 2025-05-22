@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const Media = require('./media');
+const User = require('./user');
 
 const Event = sequelize.define('Event', {
     id: {
@@ -35,6 +36,7 @@ const Event = sequelize.define('Event', {
         type: DataTypes.STRING(255),
         // allowNull: true
     },
+
     // media_id: {
     //     type: DataTypes.INTEGER,
     //     references: {
@@ -50,8 +52,9 @@ const Event = sequelize.define('Event', {
         updatedAt: false
     }
 );
-Event.belongsToMany(Media, { through: 'Eventmedia', foreignKey: 'event_id' });
-Media.belongsToMany(Event, { through: 'Eventmedia', foreignKey: 'media_id' });
+// Event.belongsToMany(User, { as: 'users_favorited', through: 'Favorite', foreignKey: 'event_id' });
+// Event.belongsToMany(Media, { through: 'Eventmedia', foreignKey: 'event_id' });
+// Media.belongsToMany(Event, { through: 'Eventmedia', foreignKey: 'media_id' });
 
 // sequelize.sync({force: true})
 

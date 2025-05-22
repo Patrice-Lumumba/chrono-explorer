@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 21 mai 2025 à 14:37
+-- Généré le : jeu. 22 mai 2025 à 02:28
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -57,7 +57,8 @@ CREATE TABLE `comments` (
 --
 
 INSERT INTO `comments` (`id`, `content`, `user_id`, `event_id`, `isApproved`, `created_at`) VALUES
-(1, 'dhakdhkajdhkajda', 1, 1, 1, '2025-05-21 01:00:00');
+(1, 'dhakdhkajdhkajda', 1, 1, 1, '2025-05-21 01:00:00'),
+(3, 'Deuxième contenu', 1, 2, 1, '2025-05-21 21:48:21');
 
 -- --------------------------------------------------------
 
@@ -121,7 +122,8 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`id`, `user_id`, `event_id`, `created_at`) VALUES
-(1, 1, 1, '2025-05-15 02:02:00');
+(1, 1, 1, '2025-05-15 02:02:00'),
+(2, 1, 3, '2025-05-21 23:58:03');
 
 -- --------------------------------------------------------
 
@@ -183,6 +185,25 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`username`, `id`, `password`, `email`, `role`, `created_at`) VALUES
 ('Lumumba', 1, '$2b$10$xvl8X.12vMAlPB1caZam6eIrROeX4zz4L7Kgflf83sYsxDGugNffG', 'pat@example.com', 'admin', '2025-05-16 02:12:34');
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users_favorited`
+--
+
+CREATE TABLE `users_favorited` (
+  `user_id` bigint(20) NOT NULL,
+  `favorite_id` bigint(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `users_favorited`
+--
+
+INSERT INTO `users_favorited` (`user_id`, `favorite_id`, `created_at`) VALUES
+(1, 1, '2025-05-22 00:24:29');
+
 --
 -- Index pour les tables déchargées
 --
@@ -242,6 +263,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `users_favorited`
+--
+ALTER TABLE `users_favorited`
+  ADD PRIMARY KEY (`user_id`,`favorite_id`);
+
+--
 -- AUTO_INCREMENT pour les tables déchargées
 --
 
@@ -249,7 +276,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `eventmedia`
@@ -267,7 +294,7 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT pour la table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `media`

@@ -11,7 +11,7 @@ const Comment = sequelize.define('Comment', {
         primaryKey: true
     },
     content: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     user_id: {
@@ -30,14 +30,17 @@ const Comment = sequelize.define('Comment', {
         },
         allowNull: false
     },
-    isApproved: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
+//     isApproved: {
+//     type: DataTypes.BOOLEAN,
+//     defaultValue: false,
+//   },
 }, {
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: false,
+    toJSON: {
+        virtuals: true,
+    },
     tableName: 'comments'
 });
 

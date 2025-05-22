@@ -16,13 +16,14 @@ exports.getById = async (req, res) => {
 exports.create = async (req, res) => {
 
   try{
-    const { event_id, comment} = req.body;
+    const { event_id, content, user_id, isApproved } = req.body;
     // const userId = req.user.id; // Assuming you have user ID from the request 
 
     const newComment = await Comment.create({
       event_id,
-      comment,
-      // userId
+      content,
+      user_id,
+      isApproved
     });
     res.status(201).json(newComment);
   } catch (error) {

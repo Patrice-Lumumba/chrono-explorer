@@ -13,8 +13,10 @@ router.post('/:id/favorite', controller.addFavorite);
 // Supprimer un événement des favoris
 router.delete('/:id/favorite', controller.removeFavorite);
 // Obtenir les événements favoris
-router.get('/favorites', controller.getFavorites);
+router.get('/favorite', controller.getFavorites);
 router.get('/:id/comments', controller.getAllComments);
+
+router.get('/:id/media', controller.getMediasByEvent);
 
 // admin event routes
 

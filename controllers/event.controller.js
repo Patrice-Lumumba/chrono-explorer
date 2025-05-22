@@ -1,4 +1,7 @@
 const { Event } = require('../models');
+const Comment = require('../models/comment');
+const Media = require('../models/media');
+const User = require('../models/user');
 
 exports.getAll = async (req, res) => {
   const events = await Event.findAll({  });
@@ -104,9 +107,42 @@ exports.linkCommentToEvent = async (req, res) => {
   }
 }
 
+exports.getMediasByEvent = async (req, res) => {
+  const { eventId } = req.params;
+
+  try {
+    const event = await Event.findByPk(eventId, {
+      include: [{ model: Media, as: 'media' }]
+    });
+
+    if (!event) return res.status(404).json({ message: 'Not found' });
+
+    res.json(event.media);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching media', error });
+  }
+};
+
+// get all favorites events
+exports.getAllFavorites = async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const user = await User.findByPk(userId, {
+      include: [{ model: Event, as: 'favorites' }],
+    });
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    res.json(user.favorites);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching favorites', error });
+  }
+};
+
 exports.addFavorite = async (req, res) => {
   const { id } = req.params;
-  // const userId = req.user.id; 
+  // const userId = req.user.id; // ID de l'utilisateur connecté
 
   try {
     const event = await Event.findByPk(id);
@@ -137,14 +173,20 @@ exports.removeFavorite = async (req, res) => {
 };
 
 exports.getFavorites = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user.user_id;
 
   try {
-    const user = await User.findByPk(userId, {
-      include: [{ model: Event, as: 'favorites' }],
+    const favorites = await Event.findAll({
+      include: [
+        {
+          model: User,
+          as: 'users_favorited',
+          where: { id: userId },
+        },
+      ],
     });
 
-    res.json(user.favorites);
+    res.json(favorites);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching favorites', error });
   }
@@ -164,7 +206,7 @@ exports.addComment = async (req, res) => {
       content,
       user_id: userId,
       event_id: id,
-      status: 'pending', // Par défaut, le commentaire est en attente de modération
+      isApproved: false, // Par défaut, le commentaire n'est pas approuvé
     });
 
     res.status(201).json(comment);
