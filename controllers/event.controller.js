@@ -1,4 +1,4 @@
-const { Event } = require('../models');
+const { Event, Favorite } = require('../models');
 const Comment = require('../models/comment');
 const Media = require('../models/media');
 const User = require('../models/user');
@@ -123,13 +123,47 @@ exports.getMediasByEvent = async (req, res) => {
   }
 };
 
-// get all favorites events
+// // get all favorite events
 exports.getAllFavorites = async (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user.id; // ID de l'utilisateur connecté
+  const eventId = req.params.id; // ID de l'événement
 
   try {
     const user = await User.findByPk(userId, {
-      include: [{ model: Event, as: 'favorites' }],
+      include: [
+        {
+          model: Event,
+          as: 'favorites',
+          through: { attributes: [] }, // n'affiche pas la table pivot
+        },
+      ],
+    });
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    res.json(user.favorites);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching favorites', error });
+  }
+}
+
+
+
+// Get all favorite events for a user
+
+
+exports.getFavorites = async (req, res) => {
+  const userId = req.user.id; // ID de l'utilisateur connecté
+
+  try {
+    const user = await User.findByPk(userId, {
+      include: [
+        {
+          model: Event,
+          as: 'favorites',
+          through: { attributes: [] }, // Exclure les attributs de la table intermédiaire
+        },
+      ],
     });
 
     if (!user) return res.status(404).json({ message: 'User not found' });
@@ -142,13 +176,16 @@ exports.getAllFavorites = async (req, res) => {
 
 exports.addFavorite = async (req, res) => {
   const { id } = req.params;
-  // const userId = req.user.id; // ID de l'utilisateur connecté
+  const userId = req.user.id; // ID de l'utilisateur connecté
 
   try {
     const event = await Event.findByPk(id);
     if (!event) return res.status(404).json({ message: 'Event not found' });
 
-    // await event.addUser(userId);
+    const user = await User.findByPk(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    await user.addFavorite(event); // <-- C'est cette ligne qui enregistre dans la table Favorite
 
     res.json({ message: 'Event added to favorites' });
   } catch (error) {
@@ -157,14 +194,17 @@ exports.addFavorite = async (req, res) => {
 };
 
 exports.removeFavorite = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.user.id; 
+  const { id } = req.params; // ID de l'événement
+  const userId = req.user.id; // ID de l'utilisateur connecté
 
   try {
     const event = await Event.findByPk(id);
     if (!event) return res.status(404).json({ message: 'Event not found' });
 
-    await event.removeUser(userId);
+    const user = await User.findByPk(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    await user.removeFavorite(event); // <-- C'est cette ligne qui supprime de la table Favorite
 
     res.json({ message: 'Event removed from favorites' });
   } catch (error) {
@@ -172,25 +212,7 @@ exports.removeFavorite = async (req, res) => {
   }
 };
 
-exports.getFavorites = async (req, res) => {
-  const userId = req.user.user_id;
 
-  try {
-    const favorites = await Event.findAll({
-      include: [
-        {
-          model: User,
-          as: 'users_favorited',
-          where: { id: userId },
-        },
-      ],
-    });
-
-    res.json(favorites);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching favorites', error });
-  }
-};
 
 // Ajouter un commentaire à un événement
 exports.addComment = async (req, res) => {

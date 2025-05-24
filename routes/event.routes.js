@@ -9,11 +9,12 @@ router.get('/:id', controller.getById);
 
 // Ajouter un événement aux favoris
 
-router.post('/:id/favorite', controller.addFavorite);
+router.post('/:id/favorite', auth.authToken, controller.addFavorite);
 // Supprimer un événement des favoris
-router.delete('/:id/favorite', controller.removeFavorite);
-// Obtenir les événements favoris
-router.get('/favorite', controller.getFavorites);
+router.delete('/:id/favorite', auth.authToken, controller.removeFavorite);
+
+// Récupérer les événements favoris d'un utilisateur
+router.get('/test/favorites', auth.authToken, controller.getAllFavorites);
 router.get('/:id/comments', controller.getAllComments);
 
 router.get('/:id/media', controller.getMediasByEvent);

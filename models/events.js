@@ -52,6 +52,7 @@ const Event = sequelize.define('Event', {
         updatedAt: false
     }
 );
+// User.belongsToMany(Event, { as: 'favorites', through: 'Favorite', foreignKey: 'user_id' });
 // Event.belongsToMany(User, { as: 'users_favorited', through: 'Favorite', foreignKey: 'event_id' });
 // Event.belongsToMany(Media, { through: 'Eventmedia', foreignKey: 'event_id' });
 // Media.belongsToMany(Event, { through: 'Eventmedia', foreignKey: 'media_id' });

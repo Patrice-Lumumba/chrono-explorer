@@ -30,10 +30,10 @@ const Comment = sequelize.define('Comment', {
         },
         allowNull: false
     },
-//     isApproved: {
-//     type: DataTypes.BOOLEAN,
-//     defaultValue: false,
-//   },
+    isApproved: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 }, {
     timestamps: true,
     createdAt: 'created_at',

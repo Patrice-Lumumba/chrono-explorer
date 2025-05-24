@@ -28,8 +28,16 @@ exports.login = async (req, res) => {
     if (!isValid) return res.status(401).json({ message: 'Mot de passe incorrect' });
 
     const token = jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, { expiresIn: '24h' });
+    
+    // Afficher les informations de l'utilisateur dans la réponse
+    const userInfo = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+    };
+    res.json({ message: 'Connexion réussie', token, user: userInfo });
 
-    res.json({ message: 'Connexion réussie', token });
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de la connexion', error });
   }

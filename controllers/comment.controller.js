@@ -1,4 +1,4 @@
-const { Comment, User } = require('../models');
+const { Comment, User, Event } = require('../models');
 const commentService = require('../services/comment.service');
 const { NotFoundError } = require('../utils/errorHandler');
 
@@ -68,11 +68,26 @@ exports.getPending = async (req, res) => {
 // Get all comments for a specific event
 
 exports.getCommentsByEvent = async (req, res) => {
-  const { eventId } = req.params;
+  const { eventId, isApproved } = req.params;
 
   const approvedComments = !req.user || !['admin'].includes(req.user.role);
-  const comments = await Comment.findAll({ where: { event_id: eventId, isApproved: approvedComments } });
+  const comments = await Comment.findAll({ 
+      include: [{ 
+        model: User,
+        attributes: ['id', 'username', 'email'],
+      }, {
+        model: Event,
+        attributes: ['id', 'title', 'description'],
+      }],
+      where: { event_id: eventId },
+  });
+
+
+  console.log('Approved comments:', comments);
+  if (!comments) return res.status(404).json({ message: 'Comments Not found' });
   res.json(comments);
+  
+
 };
 
 

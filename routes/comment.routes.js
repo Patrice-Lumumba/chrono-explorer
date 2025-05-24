@@ -8,7 +8,7 @@ const auth = require('../middlewares/auth.middleware');
 // router.post
 
 
-router.get('/event/:eventId', controller.getCommentsByEvent);
+router.get('/event/:eventId/comments', controller.getCommentsByEvent);
 router.get('/approved', controller.approve);
 
 router.get('/:id', controller.getById);
